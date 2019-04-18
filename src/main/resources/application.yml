@@ -44,7 +44,7 @@ spring:
   # Redis
   redis:
     host: 127.0.0.1
-    password: 123456
+    password:
     # 数据库索引 默认0
     database: 0
     port: 6379
