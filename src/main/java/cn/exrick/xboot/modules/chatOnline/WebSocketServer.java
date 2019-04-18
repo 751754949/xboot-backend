@@ -35,7 +35,6 @@ public class WebSocketServer {
     public void onOpen(Session session, @PathParam("userId") String username) {
         this.session = session;
         this.username = username;
-        sessions.add(session);
         addOnlineCount(username);           //在线数加1
         log.info(username + "加入！当前在线人数为" + getOnlineCount());
         try {
@@ -84,8 +83,11 @@ public class WebSocketServer {
         if (users.get(username) == null) {
             return;
         }
+        //一条消息存在于发送方客户端，也需要存在在接收方客户端
+        //两张方案:1,发送方发送之前保存 接收方服务端发送后保存
+//        2服务器向两个客户端都发送-----
         users.get(username).session.getBasicRemote().sendText(message);
-        this.session.getBasicRemote().sendText(message);
+//        this.session.getBasicRemote().sendText(message);
     }
 
     /**
