@@ -1,4 +1,4 @@
-package cn.exrick.xboot.modules.chatOnline;
+package cn.exrick.xboot.modules.base.chatOnline;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

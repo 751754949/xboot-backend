@@ -1,7 +1,9 @@
-package cn.exrick.xboot.modules.chatOnline;
+package cn.exrick.xboot.modules.base.chatOnline;
 
+import cn.exrick.xboot.common.utils.SecurityUtil;
 import cn.hutool.json.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -21,7 +23,11 @@ public class WebSocketServer {
     private static int onlineCount = 0;
     //创建一个线程安全的map
     private static Map<String, WebSocketServer> users = Collections.synchronizedMap(new HashMap());
-
+    private static  SecurityUtil securityUtil;
+    @Autowired
+    public void setSecurityUtil(SecurityUtil securityUtil){
+       WebSocketServer.securityUtil=securityUtil;
+    }
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
     //放入map中的key,用来表示该连接对象
@@ -84,10 +90,19 @@ public class WebSocketServer {
             return;
         }
         //一条消息存在于发送方客户端，也需要存在在接收方客户端
-        //两张方案:1,发送方发送之前保存 接收方服务端发送后保存
+        //两种方案:1,发送方发送之前保存 接收方服务端发送后保存
 //        2服务器向两个客户端都发送-----
+        //
         users.get(username).session.getBasicRemote().sendText(message);
-//        this.session.getBasicRemote().sendText(message);
+        System.err.println(securityUtil);
+        String sender = securityUtil.getCurrUser().getUsername();
+        Session sendsession = users.get(sender).session;
+        System.out.println(sender);
+        System.out.println(sendsession);
+        log.error("sender {}",sender);
+        log.error("sendsession {}",sendsession);
+        sendsession.getBasicRemote().sendText(message);
+        this.session.getBasicRemote().sendText(message);
     }
 
     /**
