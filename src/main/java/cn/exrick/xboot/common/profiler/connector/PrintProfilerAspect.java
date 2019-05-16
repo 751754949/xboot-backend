@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Method;
@@ -17,7 +18,9 @@ public class PrintProfilerAspect {
 
 	private int monitorTime;
 
-	@Pointcut("execution(* com.rhg.sa..*.*(..))")
+
+
+	@Pointcut("execution(* cn.exrick.xboot..*.*(..))")
 	public void pointcut() {
 	}
 

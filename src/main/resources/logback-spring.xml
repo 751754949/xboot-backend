@@ -1,0 +1,90 @@
+<configuration>
+
+    <appender name="ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/xboot-logs/rhg_sa.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/home/ubuntu/log/time-based-logs/rhg_sa-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <append>true</append>
+    </appender>
+
+    <appender name="DruidAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/xboot-logs/rhg_sa_slowSql.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/xboot-logs/time-based-slowSql-logs/xboot_slowSql-%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <append>true</append>
+    </appender>
+
+
+    <appender name="ProfilerAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/xboot-logs/profiler.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/xboot-logs/time-based-profiler-logs/profiler-%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <append>true</append>
+    </appender>
+
+
+
+    <springProfile name="DEVELOP">
+        <logger name="cn.exrick.xboot" level="debug" additivity="false">
+            <appender-ref ref="FileAppender"/>
+            <appender-ref ref="ConsoleAppender"/>
+        </logger>
+        <root level="info">
+            <!--<appender-ref ref="FileAppender"/>-->
+            <appender-ref ref="ConsoleAppender"/>
+        </root>
+    </springProfile>
+
+
+
+    <springProfile name="TEST">
+        <logger name="cn.exrick.xboot" level="debug" additivity="false">
+            <appender-ref ref="FileAppender"/>
+        </logger>
+        <root level="info">
+            <appender-ref ref="FileAppender"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="LIVE">
+        <logger name="cn.exrick.xboot" level="info" additivity="false">
+            <appender-ref ref="FileAppender"/>
+        </logger>
+        <root level="info">
+            <appender-ref ref="FileAppender"/>
+        </root>
+    </springProfile>
+
+    <Logger name="com.alibaba.druid" level="info" additivity="false">
+        <appender-ref ref="DruidAppender"/>
+    </Logger>
+
+    <Logger name="cn.exrick.xboot.common.profiler" level="info" additivity="false">
+        <appender-ref ref="ProfilerAppender"/>
+    </Logger>
+
+
+</configuration>

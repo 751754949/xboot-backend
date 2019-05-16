@@ -1,7 +1,7 @@
 package cn.exrick.xboot.common.profiler.core.callmonitor;
 
 
-import cn.hutool.json.JSON;
+import com.alibaba.fastjson.JSON;
 
 import java.io.Serializable;
 import java.text.DateFormat;

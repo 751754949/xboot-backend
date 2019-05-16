@@ -18,7 +18,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/xboot?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     # Jasypt加密 可到common-utils中找到JasyptUtil加解密工具类生成加密结果 格式为ENC(加密结果)
-    password: 123123123
+    password: root
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     # Druid StatViewServlet配置
@@ -68,6 +68,9 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 5MB
+  profiles:
+    active: DEVELOP
+
 
 xboot:
   # 全局限流
@@ -159,6 +162,6 @@ mybatis-plus:
     jdbc-type-for-null: 'null'
 
 
-# 日志
-logging:
-  file: xboot-logs/xboot.log
+
+
+debug: true
